@@ -24,22 +24,26 @@ public class TileBoard extends HBox
      */
     public TileBoard(boolean isBoardFlipped, double translateX, double translateY)
     {
-        this.isBoardFlipped = isBoardFlipped;  // Set initial board state (flipped or not)
-        tiles = new NumberTile[9];  // Initialize array to hold 9 tiles
+        // Initialize array to hold 9 tiles and set board flipped state on off
+        this.isBoardFlipped = isBoardFlipped; 
+        tiles = new NumberTile[9];  
         
-        setTranslateX(translateX);  // Set the horizontal position
-        setTranslateY(translateY);  // Set the vertical position
+        //x and y pos
+        setTranslateX(translateX);  
+        setTranslateY(translateY);  
 
         // Create and add each tile (with values 1 to 9)
         for (int i = 0; i < 9; i++)
         {
-            tiles[i] = new NumberTile(i + 1);  // Create a tile with value 1-9
-            getChildren().add(tiles[i]);  // Add tile to the HBox
+            //creates tiles 1-9 and add to tile board
+            tiles[i] = new NumberTile(i + 1);  
+            getChildren().add(tiles[i]);  
         }
-
-        setSpacing(6);  // Add spacing between tiles in the HBox
-
-        updateTileOrientation();  // Update the tile orientation based on the flipped state
+        //  spacing between tiles in the HBox
+        setSpacing(10);  
+        
+        // Update the tile orientation based on the flipped state
+        updateTileOrientation();  
     }
 
     /**
