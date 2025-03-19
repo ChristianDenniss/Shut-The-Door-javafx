@@ -6,11 +6,16 @@ import javafx.stage.Stage;
 
 public class SkipButton extends MenuButton
 {
-    public SkipButton(double x, double y)
+    double x,y;
+    Instructions instruction;
+    
+    public SkipButton(double x, double y, Instructions instruction)
     {
         // Set the button text to "Skip" with our parent class method
         super("Skip");
-        
+        this.x = x;
+        this.y = y;
+        this.instruction = instruction;
         // Set the action handler for when the button is clicked
         setOnAction(createAction()); 
         
@@ -46,14 +51,16 @@ public class SkipButton extends MenuButton
                 // Add an event listener to the MediaPlayer to know when the video ends
                 mediaView.getMediaPlayer().setOnEndOfMedia(() -> {
                     // Once the video is done, start the game screen
-                    startGame(layout);
+                    instruction.startGame(layout);
                 });
             }
         };
     }
 
-    /**
-     * This method is called after the video ends, and it will transition to the game screen.
+    /** DEPRECATED METHOD (left it in to show progression); we used to have 2 
+     * startGame methods 1 here and 1 in instructions class but we revised the
+     * code and decided to pass it as a param so we can just reuse the method 
+     * for better structure & maintainability 
      */
     private void startGame(StackPane layout)
     {
