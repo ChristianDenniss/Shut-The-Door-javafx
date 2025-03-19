@@ -30,7 +30,8 @@ public class Instructions
         "Once the game ends, the scores are compared, and the player with the lower score is declared the winner.",
         "To restart, tap 'Restart' to play another round, or tap 'Exit' to quit the game."
     };
-
+    
+    private boolean instructionsOver = false;
     private int currentIndex = 0;
     private double cooldownTime = 1.3;
     private long lastClickTime = 0;
@@ -51,7 +52,7 @@ public class Instructions
         layout.getChildren().add(instructionText);
 
         // Initialize the SkipButton and add it to the layout
-        skipButton = new SkipButton(400, 300); // Passing position to SkipButton
+        skipButton = new SkipButton(400, 300, this); // Passing position to SkipButton
         skipButton.setMinWidth(150);
         skipButton.setMinHeight(50);
         skipButton.setOnAction(e -> startGame(layout)); // Skip button should call startGame with layout
@@ -71,29 +72,32 @@ public class Instructions
      */
     private void handleScreenClick(MouseEvent event) 
     {
-        long currentTime = System.currentTimeMillis();
-        double elapsedTime = (currentTime - lastClickTime) / 1000.0;
-
-        if (elapsedTime >= cooldownTime) 
+        if( instructionsOver == false)
         {
-            if (currentIndex == instructions.length - 1) 
+            long currentTime = System.currentTimeMillis();
+            double elapsedTime = (currentTime - lastClickTime) / 1000.0;
+    
+            if (elapsedTime >= cooldownTime) 
             {
-                // When the last instruction is shown, create a TileBoard
-                startGame(event);
-            } else 
-            {
-                currentIndex = (currentIndex + 1) % instructions.length;
-                if (cooldownTime > 0.9) 
+                if (currentIndex == instructions.length - 1) 
                 {
-                    cooldownTime = 0.9;
+                    // When the last instruction is shown, create a TileBoard
+                    startGame(event);
+                } else 
+                {
+                    currentIndex = (currentIndex + 1) % instructions.length;
+                    if (cooldownTime > 0.9) 
+                    {
+                        cooldownTime = 0.9;
+                    }
+                    lastClickTime = currentTime;
+                    instructionText.setText(instructions[currentIndex]);
                 }
-                lastClickTime = currentTime;
-                instructionText.setText(instructions[currentIndex]);
+            } 
+            else 
+            {
+                showWarningMessage(event);
             }
-        } 
-        else 
-        {
-            showWarningMessage(event);
         }
     }
 
@@ -139,25 +143,45 @@ public class Instructions
 
         // Create the GameScreen and pass the layout to it
         GameScreen gameScreen = new GameScreen(layout);
+        layout.getChildren().add(gameScreen);
 
         // Optionally, you can add a message or reset state for the game
         System.out.println("Instructions are over, starting the game!");
+        
+        instructionsOver = true;
     }
 
     /**
      * This method is called when the last instruction is shown, and we create a TileBoard to start the game.
      * It will be used when skip button is pressed as well.
      */
-    private void startGame(StackPane layout) 
+    public void startGame(StackPane layout) 
     {
         // Clear all children (remove everything)
         layout.getChildren().clear();
         
+        // Remove the warning label if it's still on the screen
+        if (warningLabel != null) 
+        {
+            layout.getChildren().remove(warningLabel);
+        }
+        
         // Create the GameScreen and pass the layout to it
         GameScreen gameScreen = new GameScreen(layout);
-
+    
+        // Debugging: Check if GameScreen is properly added to the layout
+        System.out.println("Adding GameScreen to layout...");
+    
+        // Add the GameScreen to the layout
+        layout.getChildren().add(gameScreen);  // Add the GameScreen to layout
+    
+        // Debugging: Check if GameScreen is now in the layout
+        System.out.println("Layout children after adding GameScreen: " + layout.getChildren());
+    
         // Optionally, you can add a message or reset state for the game
         System.out.println("Instructions are over, starting the game!");
+        
+        instructionsOver = true;
     }
 
     public String getNextInstruction() 
