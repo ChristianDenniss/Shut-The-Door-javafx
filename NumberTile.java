@@ -17,12 +17,15 @@ public class NumberTile extends StackPane
         this.isOn = false;
 
         // Create a square background for the tile
-        tileBackground = new Rectangle(50, 50); // Tile size (adjust if needed)
+        tileBackground = new Rectangle(60, 60); // Tile size (adjust if needed)
         tileBackground.setFill(Color.BROWN);  // Wooden color (you can change the color or add texture)
 
         // Create the text for the number
         valueText = new Text(String.valueOf(value));
         valueText.setFill(Color.WHITE);  // Text color (white for contrast)
+        
+         // Set the font size (for example, setting the font size to 20px)
+        valueText.setStyle("-fx-font-size: 20px;");
 
         // Add both the background and the text to the StackPane
         getChildren().addAll(tileBackground, valueText);
@@ -32,6 +35,7 @@ public class NumberTile extends StackPane
 
         // Optionally, add a hover effect to toggle the tile on click (for demo purposes)
         setOnMouseClicked(event -> toggleState());
+        
     }
 
     // Public method to toggle the "on" state of the tile (called when clicked)
