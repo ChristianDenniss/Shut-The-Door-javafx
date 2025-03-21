@@ -37,6 +37,39 @@ public class GameScreen extends StackPane
         askForPlayerNames(layout);
     }
 
+    
+     private void rotateGameScreen(GameBoard gameBoard)
+    {
+        // Debugging: Log when the rotation function is called
+        System.out.println("rotateGameScreen method called");
+        
+        // Apply rotate to game board
+        gameBoard.rotateGameBoard();
+
+        // Apply the rotation to the entire GameScreen (this StackPane)
+        RotateTransition rotateTransition = new RotateTransition(Duration.seconds(3), this);
+
+        // Set the angle of rotation
+        rotateTransition.setByAngle(180);  // Rotate by 180 degrees
+
+        // Set the interpolation for smooth rotation
+        rotateTransition.setInterpolator(javafx.animation.Interpolator.EASE_BOTH);
+
+        // Set the rotation to only happen once
+        rotateTransition.setCycleCount(1);  // One cycle of rotation
+
+        // Debugging: Log before starting the transition
+        System.out.println("Starting the rotation transition...");
+
+        // Play the rotation animation
+        rotateTransition.play();
+
+        // Log when the rotation is completed
+        rotateTransition.setOnFinished(event -> {
+            System.out.println("Rotation completed.");
+        });
+    }
+    
     /**
      * Method to handle the player name input sequence.
      * It asks for Player 1's name, then Player 2's name.
