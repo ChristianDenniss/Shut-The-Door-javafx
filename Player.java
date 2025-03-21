@@ -17,4 +17,14 @@ public class Player
         
     }
     
+    public String getName()
+    {
+        return username;
+    }
+    
+    public int score()
+    {
+        return score;
+    }
+    
 }
