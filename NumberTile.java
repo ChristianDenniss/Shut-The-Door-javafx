@@ -36,6 +36,7 @@ public class NumberTile extends StackPane
         // Optionally, add a hover effect to toggle the tile on click (for demo purposes)
         setOnMouseClicked(event -> toggleState());
         
+        
     }
 
     // Public method to toggle the "on" state of the tile (called when clicked)
@@ -64,7 +65,11 @@ public class NumberTile extends StackPane
             tileBackground.setEffect(null);  // Remove the darkening effect
         }
     }
-
+    
+    public Text getValueText()
+    {
+        return valueText;
+    }
     // Getter for the tile's value
     public int getValue()
     {
