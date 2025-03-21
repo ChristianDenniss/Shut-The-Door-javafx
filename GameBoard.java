@@ -1,20 +1,50 @@
 import javafx.scene.layout.StackPane;
+import javafx.animation.RotateTransition;
+import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 
-/**
- * Write a description of class GameBoard here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
 public class GameBoard extends StackPane
 {
-    public GameBoard(StackPane layout)
+    public GameBoard() 
     {
         // Initialize the game screen with relevant UI elements
-        TileBoard player1Tiles = new TileBoard(true, 100, 0);
-        TileBoard player2Tiles = new TileBoard(false, 100, 100);
-        
-        // Add any other game-related UI components (e.g., buttons, game board) here.
-        layout.getChildren().addAll(player1Tiles, player2Tiles);
+        TileBoard player1Tiles = new TileBoard(true, 310, -50);
+        TileBoard player2Tiles = new TileBoard(false, 310, 50);
+        ImageView boardBackGround = MediaHandler.loadImage("boardBackGround.png", 1100, 750);
+
+        // Add the components to the GameBoard layout (StackPane)
+        this.getChildren().addAll(boardBackGround, player1Tiles, player2Tiles);
+    }
+
+    /**
+     * Rotates the entire GameBoard and its children 180 degrees with a smooth animation.
+     */
+    public void rotateGameBoard()
+    {
+        // Debugging: Log when the rotation function is called
+        System.out.println("rotateGameBoard method called");
+
+        // Apply rotation to the GameBoard (this StackPane)
+        RotateTransition rotateTransition = new RotateTransition(Duration.seconds(4), this);
+
+        // Set the angle of rotation
+        rotateTransition.setByAngle(180);  // Rotate by 180 degrees
+
+        // Set the interpolation for smooth rotation
+        rotateTransition.setInterpolator(javafx.animation.Interpolator.EASE_BOTH);
+
+        // Set the rotation to only happen once
+        rotateTransition.setCycleCount(1);  // One cycle of rotation
+
+        // Debugging: Log before starting the transition
+        System.out.println("Starting the GameBoard rotation transition...");
+
+        // Play the rotation animation
+        rotateTransition.play();
+
+        // Log when the rotation is completed
+        rotateTransition.setOnFinished(event -> {
+            System.out.println("Rotation completed for GameBoard.");
+        });
     }
 }
