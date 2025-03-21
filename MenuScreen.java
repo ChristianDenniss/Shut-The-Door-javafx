@@ -38,7 +38,7 @@ public class MenuScreen extends StackPane
         creditsButton.setMinHeight(buttonHeight);
 
         // Use MediaHandler to load the title image from the resources folder with a specified width and height
-        ImageView gameTitleImage = MediaHandler.loadImage("STD_Title.png", 800, 600); // width: 400px, height: 200px
+        ImageView gameTitleImage = MediaHandler.loadImage("STD_Title.png", 800, 600); 
 
         // Create the animation for the title (hover effect)
         TranslateTransition titleAnimation = new TranslateTransition(Duration.seconds(4), gameTitleImage);
