@@ -64,10 +64,10 @@ public class SkipButton extends MenuButton
      */
     private void startGame(StackPane layout)
     {
-        // Create a GameScreen instance and pass the layout to it
+        /*
         GameScreen gameScreen = new GameScreen(layout); // Pass the layout to GameScreen
 
-        // Add the game screen to the layout (no need to clear the layout again)
-        layout.getChildren().add(gameScreen);  // Add the game screen to the layout
+        
+        layout.getChildren().add(gameScreen);  // Add the game screen to the layout */
     }
 }
