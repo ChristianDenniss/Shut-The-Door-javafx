@@ -141,9 +141,9 @@ public class Instructions
         // Clear all children (remove everything)
         layout.getChildren().clear();
 
-        // Create the GameScreen and pass the layout to it
-        GameScreen gameScreen = new GameScreen(layout);
-        layout.getChildren().add(gameScreen);
+        // Create the PlayerSetupScreen and pass the layout to it
+        PlayerSetupScreen pSup = new PlayerSetupScreen(layout);
+        layout.getChildren().add(pSup);
 
         // Optionally, you can add a message or reset state for the game
         System.out.println("Instructions are over, starting the game!");
@@ -166,17 +166,17 @@ public class Instructions
             layout.getChildren().remove(warningLabel);
         }
         
-        // Create the GameScreen and pass the layout to it
-        GameScreen gameScreen = new GameScreen(layout);
+        // Create the PlayerSetupScreen and pass the layout to it
+        PlayerSetupScreen pSup = new PlayerSetupScreen(layout);
     
         // Debugging: Check if GameScreen is properly added to the layout
-        System.out.println("Adding GameScreen to layout...");
+        System.out.println("Adding PlayerSetupScreen to layout...");
     
         // Add the GameScreen to the layout
-        layout.getChildren().add(gameScreen);  // Add the GameScreen to layout
+        layout.getChildren().add(pSup);  
     
-        // Debugging: Check if GameScreen is now in the layout
-        System.out.println("Layout children after adding GameScreen: " + layout.getChildren());
+        // Debugging: Check if PlayerSetupScreen is now in the layout
+        System.out.println("Layout children after adding PlayerSetupScreen: " + layout.getChildren());
     
         // Optionally, you can add a message or reset state for the game
         System.out.println("Instructions are over, starting the game!");
