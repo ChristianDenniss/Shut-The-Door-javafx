@@ -16,9 +16,10 @@ public class TileBoard extends HBox
      */
     public TileBoard(boolean isBoardFlipped, double translateX, double translateY)
     {
+        System.out.println("Constructor called with isBoardFlipped: " + isBoardFlipped);
         this.isBoardFlipped = isBoardFlipped; 
         tiles = new NumberTile[9];  
-        
+
         // x and y position
         setTranslateX(translateX);  
         setTranslateY(translateY);  
@@ -26,7 +27,12 @@ public class TileBoard extends HBox
         // Create tiles in normal order
         for (int i = 0; i < 9; i++)
         {
-            tiles[i] = new NumberTile(i + 1);  
+            tiles[i] = new NumberTile(i + 1); 
+            tiles[i].setMouseTransparent(false);
+
+            // Adding a click handler for each tile
+            int index = i;  // Local variable to capture the correct index
+            tiles[i].setOnMouseClicked(event -> handleTileClick(index)); // Pass the index to handle the click
         }
 
         // If flipped, reverse order
@@ -35,6 +41,7 @@ public class TileBoard extends HBox
             for (int i = 8; i >= 0; i--)
             {
                 getChildren().add(tiles[i]);
+                tiles[i].setMouseTransparent(false);
             }
         }
         else
@@ -114,16 +121,16 @@ public class TileBoard extends HBox
      */
     private void updateTileOrientation() 
     {
-        for (NumberTile tile : tiles) 
+        for (NumberTile tile : tiles)
         {
             // Rotate the number based on the board state (flipped or not)
-            if (isBoardFlipped) 
+            if (isBoardFlipped)
             {
                 // Rotate the number 180 degrees when the board is flipped
                 tile.getValueText().setRotate(180);
                 // Ensure no horizontal flipping by not changing scaleX
-            } 
-            else 
+            }
+            else
             {
                 // Ensure the number is upright if the board is not flipped
                 tile.getValueText().setRotate(0);
@@ -150,5 +157,25 @@ public class TileBoard extends HBox
     public boolean isBoardFlipped()
     {
         return isBoardFlipped;
+    }
+
+    /**
+     * Method to handle tile click event and get the clicked tile index.
+     * 
+     * @param index The index of the clicked tile.
+     */
+    private void handleTileClick(int index)
+    {
+        // Handle tile click logic here, using the index of the clicked tile
+        System.out.println("Tile clicked at index: " + index + " Tile value: " + tiles[index].getValue());
+        
+        if (this.isBoardFlipped)
+        {
+           System.out.println("1");  
+        }
+        else
+        {
+            System.out.println("2"); 
+        }
     }
 }
