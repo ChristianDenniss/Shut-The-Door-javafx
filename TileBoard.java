@@ -1,33 +1,30 @@
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.GridPane;
 
-public class TileBoard extends HBox
-{
+public class TileBoard extends GridPane {
     private NumberTile[] tiles; // Array to hold the 9 tiles on the board
     private boolean isBoardFlipped; // Flag to check if the board is flipped (Player 2's view)
 
     /**
      * Constructor to initialize the TileBoard.
-     * This will create a 3x3 grid of NumberTile objects and place them in an HBox.
+     * This will create a 1-row, 9-column grid of NumberTile objects and place them in a GridPane.
      * The board's state (flipped or not) and position (translateX, translateY) are set based on the parameters.
      *
      * @param isBoardFlipped If true, the board is flipped (Player 2's view).
      * @param translateX The horizontal position of the board.
      * @param translateY The vertical position of the board.
      */
-    public TileBoard(boolean isBoardFlipped, double translateX, double translateY)
-    {
+    public TileBoard(boolean isBoardFlipped, double translateX, double translateY) {
         System.out.println("Constructor called with isBoardFlipped: " + isBoardFlipped);
-        this.isBoardFlipped = isBoardFlipped; 
-        tiles = new NumberTile[9];  
+        this.isBoardFlipped = isBoardFlipped;
+        tiles = new NumberTile[9];
 
-        // x and y position
-        setTranslateX(translateX);  
-        setTranslateY(translateY);  
+        // Set the position of the board
+        setTranslateX(translateX);
+        setTranslateY(translateY);
 
         // Create tiles in normal order
-        for (int i = 0; i < 9; i++)
-        {
-            tiles[i] = new NumberTile(i + 1); 
+        for (int i = 0; i < 9; i++) {
+            tiles[i] = new NumberTile(i + 1);
             tiles[i].setMouseTransparent(false);
 
             // Adding a click handler for each tile
@@ -35,21 +32,19 @@ public class TileBoard extends HBox
             tiles[i].setOnMouseClicked(event -> handleTileClick(index)); // Pass the index to handle the click
         }
 
-        // If flipped, reverse order
-        if (isBoardFlipped)
-        {
-            for (int i = 8; i >= 0; i--)
-            {
-                getChildren().add(tiles[i]);
-                tiles[i].setMouseTransparent(false);
+        // Add tiles to the GridPane in a single row with 9 columns
+        if (isBoardFlipped) {
+            for (int i = 8; i >= 0; i--) {
+                add(tiles[i], i, 0); // Add tile in reverse order to the first row
+            }
+        } else {
+            for (int i = 0; i < 9; i++) {
+                add(tiles[i], i, 0); // Add tiles to the first row
             }
         }
-        else
-        {
-            getChildren().addAll(tiles);
-        }
 
-        setSpacing(10);  
+        setHgap(10);  // Horizontal gap between tiles
+        setVgap(10);  // Vertical gap between tiles
         updateTileOrientation();
     }
 
@@ -60,10 +55,8 @@ public class TileBoard extends HBox
      * @return The NumberTile object at the given index.
      * @throws IndexOutOfBoundsException If the index is invalid (not between 0 and 8).
      */
-    public NumberTile getTile(int index)
-    {
-        if (index >= 0 && index < 9)
-        {
+    public NumberTile getTile(int index) {
+        if (index >= 0 && index < 9) {
             return tiles[index];
         }
         throw new IndexOutOfBoundsException("Invalid tile index");
@@ -74,19 +67,17 @@ public class TileBoard extends HBox
      * 
      * @return The array of NumberTile objects.
      */
-    public NumberTile[] getTiles()
-    {
+    public NumberTile[] getTiles() {
         return tiles;
     }
 
     /**
      * Method to reset all tiles to their "off" state (unhighlighted).
      */
-    public void resetTiles()
-    {
-        for (NumberTile tile : tiles)
-        {
-            tile.setTileState(false);
+    public void resetTiles() {
+        for (NumberTile tile : tiles) {
+            tile.openTile();
+            tile.setInitialTileState();
         }
     }
 
@@ -95,11 +86,10 @@ public class TileBoard extends HBox
      * 
      * @param index The index of the tile to turn on (0-8).
      */
-    public void setTileOn(int index)
-    {
-        if (index >= 0 && index < 9)
-        {
-            tiles[index].setTileState(true);
+    public void setTileOn(int index) {
+        if (index >= 0 && index < 9) {
+            tiles[index].openTile();
+            tiles[index].setTileState();
         }
     }
 
@@ -108,30 +98,23 @@ public class TileBoard extends HBox
      * 
      * @param index The index of the tile to turn off (0-8).
      */
-    public void setTileOff(int index)
-    {
-        if (index >= 0 && index < 9)
-        {
-            tiles[index].setTileState(false);
+    public void setTileOff(int index) {
+        if (index >= 0 && index < 9) {
+            tiles[index].setTileState();
         }
     }
 
     /**
      * Method to update the orientation of the tiles based on the board's state (flipped or not).
      */
-    private void updateTileOrientation() 
-    {
-        for (NumberTile tile : tiles)
-        {
+    private void updateTileOrientation() {
+        for (NumberTile tile : tiles) {
             // Rotate the number based on the board state (flipped or not)
-            if (isBoardFlipped)
-            {
+            if (isBoardFlipped) {
                 // Rotate the number 180 degrees when the board is flipped
                 tile.getValueText().setRotate(180);
                 // Ensure no horizontal flipping by not changing scaleX
-            }
-            else
-            {
+            } else {
                 // Ensure the number is upright if the board is not flipped
                 tile.getValueText().setRotate(0);
             }
@@ -143,8 +126,7 @@ public class TileBoard extends HBox
      * 
      * @param isBoardFlipped If true, the board will be flipped (Player 2's view).
      */
-    public void setBoardFlipped(boolean isBoardFlipped)
-    {
+    public void setBoardFlipped(boolean isBoardFlipped) {
         this.isBoardFlipped = isBoardFlipped;
         updateTileOrientation();
     }
@@ -154,8 +136,7 @@ public class TileBoard extends HBox
      * 
      * @return True if the board is flipped (Player 2's view), false if not (Player 1's view).
      */
-    public boolean isBoardFlipped()
-    {
+    public boolean isBoardFlipped() {
         return isBoardFlipped;
     }
 
@@ -164,18 +145,15 @@ public class TileBoard extends HBox
      * 
      * @param index The index of the clicked tile.
      */
-    private void handleTileClick(int index)
-    {
+    private void handleTileClick(int index) {
         // Handle tile click logic here, using the index of the clicked tile
-        System.out.println("Tile clicked at index: " + index + " Tile value: " + tiles[index].getValue());
+        System.out.println("Tile clicked at index: " + index + " Tile value: " + tiles[index].getValue() + " is closed:" + tiles[index].isClosed());
+        tiles[index].setTileState();
         
-        if (this.isBoardFlipped)
-        {
-           System.out.println("1");  
-        }
-        else
-        {
-            System.out.println("2"); 
+        if (this.isBoardFlipped) {
+            System.out.println("1");
+        } else {
+            System.out.println("2");
         }
     }
 }
