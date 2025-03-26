@@ -19,12 +19,12 @@ public class GameBoard extends StackPane
         this.getChildren().addAll(p1, p2);
         
         // Initialize the game screen with relevant UI elements
-        TileBoard player1Tiles = new TileBoard(true, 310, -50);
-        TileBoard player2Tiles = new TileBoard(false, 310, 50);
+        //TileBoard player1Tiles = new TileBoard(true, 310, -50);
+        //TileBoard player2Tiles = new TileBoard(false, 310, 50);
         ImageView boardBackGround = MediaHandler.loadImage("boardBackGround.png", 1100, 750);
         
         // Add the components to the GameBoard layout (StackPane)
-        this.getChildren().addAll(boardBackGround, player1Tiles, player2Tiles);
+        this.getChildren().addAll(boardBackGround);//, player1Tiles, player2Tiles);
         
         boardBackGround.setMouseTransparent(true);
         p1.setMouseTransparent(true);
