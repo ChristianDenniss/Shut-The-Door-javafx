@@ -30,9 +30,13 @@ public class GameScreen extends StackPane
         
         // Create a new GameBoard instance
         GameBoard gameBoard = new GameBoard(p1Text, p2Text);  
-        
         layout.getChildren().add(gameBoard);
         gameBoard.setMouseTransparent(false);
+        
+        TileBoard player1Tiles = new TileBoard(true, 290, 320);
+        TileBoard player2Tiles = new TileBoard(false, 290, 420);
+        
+        this.getChildren().addAll(player1Tiles, player2Tiles);
         
         // Debugging: Log to confirm GameBoard was added
         System.out.println("GameBoard added to layout");// Start the player input sequence
