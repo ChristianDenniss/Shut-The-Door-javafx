@@ -40,7 +40,8 @@ public class TileBoard extends GridPane
             tiles[i].setMouseTransparent(false);
 
             // Adding a click handler for each tile
-            int index = i;  // Local variable to capture the correct index
+            //must make a new var cuz lamda expression
+            int index = i;  
             tiles[i].setOnMouseClicked(event -> handleTileClick(index)); 
             tiles[i].setOnMouseEntered(event -> handleMouseEntered(index));  
             tiles[i].setOnMouseExited(event -> handleMouseExited(index)); 
