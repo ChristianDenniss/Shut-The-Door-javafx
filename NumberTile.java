@@ -4,15 +4,47 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.effect.ColorAdjust;
 
-public class NumberTile extends StackPane {
-    private int value;  // The value of the tile (1-9)
-    private boolean isOn; // Whether the tile is "on" (highlighted)
-    private Rectangle tileBackground;  // The square background of the tile
-    private Text valueText;  // The text displaying the number
-    public boolean closed;
+/****************************************************************
+* Class to create a NumberTile object representing a single tile
+* with a number (1-9), which can be toggled between "on" and "off"
+* states. The tile has a visual representation (background and 
+* number) and can be flipped for Player 2's view.
+*
+* Christian Dennis
+* 26/02/2025
+* 0.0.1
+******************************************************************/
 
-    public NumberTile(int value) {
+public class NumberTile extends StackPane 
+{
+    // The value of the tile (1-9)
+    private int value;  
+    
+    // Whether the tile is "on" (highlighted)
+    private boolean isOn; 
+    
+    // The square background of the tile
+    private Rectangle tileBackground;  
+    
+    // The text displaying the number
+    private Text valueText;  
+    
+    // If the tile is closed or opened
+    public boolean closed; 
+
+    /**
+     * Constructor to initialize the NumberTile.
+     * This will create a square tile with a number (1-9) displayed.
+     * The tile is initially closed (not highlighted).
+     * 
+     * @param value The value to be displayed on the tile (1-9).
+     */
+    public NumberTile(int value) 
+    {
+        // Set the tile's initial closed state
         this.closed = true;
+        
+        // Set the value of the tile
         this.value = value;
 
         // Create a square background for the tile
@@ -34,62 +66,116 @@ public class NumberTile extends StackPane {
         setInitialTileState();
     }
 
-    public void setInitialTileState() {
+    /**
+     * Method to set the tile's state back to its initial (off) state.
+     * The tile background will return to its original color (brown), 
+     * and any effects applied will be removed.
+     */
+    public void setInitialTileState() 
+    {
         // Start as brown with no changes
         tileBackground.setFill(Color.BROWN);  
         tileBackground.setEffect(null); 
 
+        // Set the tile as closed
         this.closed = true;
     }
 
-    // Public method to set the tile's state (on/off)
-    public void setTileState() {
-        if (closed) {
+    /**
+     * Method to toggle the tile's state between "on" and "off".
+     * When the tile is clicked, it will open (become green and darker),
+     * if it's not already open.
+     */
+    public void setTileState() 
+    {
+        if (closed) 
+        {
+            // If tile is closed, open it and apply changes
             System.out.println("Opening clicked tile");
-            // If tile is closed, open it
             tileBackground.setFill(Color.GREEN);  // Set a highlighted color (green)
+            
             // Darken the tile (reduce brightness) using a color adjust effect
             ColorAdjust colorAdjust = new ColorAdjust();
             colorAdjust.setBrightness(-0.5);  // Darken by 50%
             tileBackground.setEffect(colorAdjust);
 
-            this.closed = false;  // Mark as opened
-        } else {
+            // Mark the tile as opened
+            this.closed = false;  
+        } 
+        else 
+        {
+            // If the tile is already open, print a message
             System.out.println("Tile is already open; cannot click again.");
         }
     }
 
-    public Text getValueText() {
+    /**
+     * Getter for the text representing the tile's value.
+     * 
+     * @return The Text object representing the number on the tile.
+     */
+    public Text getValueText() 
+    {
         return valueText;
     }
 
-    // Getter for the tile's value
-    public int getValue() {
+    /**
+     * Getter for the tile's value.
+     * 
+     * @return The value of the tile (1-9).
+     */
+    public int getValue() 
+    {
         return value;
     }
 
-    // Getter for the "on" state
-    public boolean isOn() {
+    /**
+     * Getter for the "on" state of the tile.
+     * 
+     * @return True if the tile is highlighted (on), false otherwise.
+     */
+    public boolean isOn() 
+    {
         return isOn;
     }
 
-    public boolean isClosed() {
+    /**
+     * Getter for the "closed" state of the tile.
+     * 
+     * @return True if the tile is closed (not opened), false otherwise.
+     */
+    public boolean isClosed() 
+    {
         return closed;
     }
 
-    public void openTile() {
-        closed = false;  // Mark tile as opened
+    /**
+     * Method to open the tile (mark it as opened).
+     */
+    public void openTile() 
+    {
+        // Mark tile as opened
+        closed = false;  
     }
 
-    // Method to flip the tile (used for Player 2's view)
-    public void flipTile() {
+    /**
+     * Method to flip the tile for Player 2's view.
+     * This will mirror the tile's contents horizontally and rotate the text.
+     */
+    public void flipTile() 
+    {
         // Flip the tile's content horizontally (Player 2's view)
         setScaleX(getScaleX() * -1);  // Flip horizontally
         valueText.setRotate(valueText.getRotate() + 180);  // Also rotate the text
     }
 
-    // Method to reset the flip state for Player 1's view
-    public void resetFlip() {
-        setScaleX(Math.abs(getScaleX()));  // Ensure the tile is not flipped
+    /**
+     * Method to reset the tile to its original (not flipped) state.
+     * This ensures the tile is correctly oriented for Player 1's view.
+     */
+    public void resetFlip() 
+    {
+        // Ensure the tile is not flipped horizontally
+        setScaleX(Math.abs(getScaleX()));  
     }
 }
