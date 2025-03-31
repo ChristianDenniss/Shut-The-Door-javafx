@@ -33,8 +33,8 @@ public class GameScreen extends StackPane
         layout.getChildren().add(gameBoard);
         gameBoard.setMouseTransparent(false);
         
-        TileBoard player1Tiles = new TileBoard(true, 290, 320);
-        TileBoard player2Tiles = new TileBoard(false, 290, 420);
+        TileBoard player1Tiles = new TileBoard(false, 290, 320);
+        TileBoard player2Tiles = new TileBoard(true, 290, 420);
         
         this.getChildren().addAll(player1Tiles, player2Tiles);
         
