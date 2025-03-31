@@ -12,7 +12,7 @@ import javafx.scene.effect.ColorAdjust;
 public class TileBoard extends GridPane 
 {
     private NumberTile[] tiles; // Array to hold the 9 tiles on the board
-    private boolean isBoardFlipped; // Flag to check if the board is flipped (Player 2's view)
+    private boolean myTurn; // Flag to check if the board is flipped (Player 2's view)
 
     /**
      * Constructor to initialize the TileBoard.
@@ -23,10 +23,10 @@ public class TileBoard extends GridPane
      * @param translateX The horizontal position of the board.
      * @param translateY The vertical position of the board.
      */
-    public TileBoard(boolean isBoardFlipped, double translateX, double translateY) 
+    public TileBoard(boolean myTurn, double translateX, double translateY) 
     {
-        System.out.println("Constructor called with isBoardFlipped: " + isBoardFlipped);
-        this.isBoardFlipped = isBoardFlipped;
+        System.out.println("Constructor called with myTurn: " + myTurn);
+        this.myTurn = myTurn;
         tiles = new NumberTile[9];
 
         // Set the position of the board
@@ -48,7 +48,7 @@ public class TileBoard extends GridPane
         }
 
         // Add tiles to the GridPane in a single row with 9 columns
-        if (isBoardFlipped) 
+        if (!myTurn) 
         {
             for (int i = 8; i >= 0; i--) 
             {
@@ -179,7 +179,7 @@ public class TileBoard extends GridPane
         for (NumberTile tile : tiles) 
         {
             // Rotate the number based on the board state (flipped or not)
-            if (isBoardFlipped) 
+            if (!myTurn) 
             {
                 // Rotate the number 180 degrees when the board is flipped
                 tile.getValueText().setRotate(180);
@@ -198,9 +198,9 @@ public class TileBoard extends GridPane
      * 
      * @param isBoardFlipped If true, the board will be flipped (Player 2's view).
      */
-    public void setBoardFlipped(boolean isBoardFlipped) 
+    public void setBoardFlipped(boolean myTurn) 
     {
-        this.isBoardFlipped = isBoardFlipped;
+        this.myTurn = myTurn;
         updateTileOrientation();
     }
 
@@ -209,9 +209,9 @@ public class TileBoard extends GridPane
      * 
      * @return True if the board is flipped (Player 2's view), false if not (Player 1's view).
      */
-    public boolean isBoardFlipped() 
+    public boolean isMyTurn() 
     {
-        return isBoardFlipped;
+        return myTurn;
     }
 
     /**
@@ -223,15 +223,15 @@ public class TileBoard extends GridPane
     {
         // Handle tile click logic here, using the index of the clicked tile
         System.out.println("Tile clicked at index: " + index + " Tile value: " + tiles[index].getValue() + " is closed:" + tiles[index].isClosed());
-        tiles[index].setTileState();
 
-        if (this.isBoardFlipped) 
+        if (!myTurn) 
         {
-            System.out.println("1");
+            System.out.println("not this tile boards turn");
         } 
         else 
         {
-            System.out.println("2");
+            System.out.println("it is this tile boards turn");
+            tiles[index].setTileState();
         }
     }
 }
