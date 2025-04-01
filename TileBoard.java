@@ -224,14 +224,14 @@ public class TileBoard extends GridPane
     public void changePlayersTurn() 
     {
         //if it was just the players turn it is no longer and vice versa
-        if(myTurn)
+        if(this.myTurn == true )
         {
-            myTurn = false;
+            this.myTurn = false;
         }
         
         else
         {
-            myTurn = true;
+            this.myTurn = true;
         }
     }
 
@@ -258,16 +258,21 @@ public class TileBoard extends GridPane
         {
             if (!myTurn) 
             {
+                MediaHandler.playSound("failClick.mp3");
+                
                 System.out.println("not this tile boards turn");
             } 
             else 
             {
+                MediaHandler.playSound("succesfulClick.mp3");
+                
                 System.out.println("it is this tile boards turn");
                 tiles[index].setTileState();
             }
         }
         else
         {
+            MediaHandler.playSound("failClick.mp3");
             System.out.println("Game isn't playable right now");
         }
     }
