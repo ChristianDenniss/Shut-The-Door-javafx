@@ -28,7 +28,10 @@ public class WIPButton extends MenuButton
             @Override
             public void handle(ActionEvent event) {
                 System.out.println("WIP button clicked! This feature is under construction...");
-
+                
+                // Play the button press sound using MediaHandler
+                MediaHandler.playSound("mouseClick.mp3");
+                
                 // Get the current stage
                 Stage stage = (Stage) getScene().getWindow();
 
