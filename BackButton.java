@@ -46,7 +46,10 @@ public class BackButton extends MenuButton
             public void handle(ActionEvent event) 
             {
                 System.out.println("Back button clicked! Returning to the menu...");
-
+                
+                // Play the button press sound using MediaHandler
+                MediaHandler.playSound("mouseClick.mp3");
+                
                 // Get the current layout (StackPane) from the scene
                 StackPane layout = (StackPane) stage.getScene().getRoot();
 
