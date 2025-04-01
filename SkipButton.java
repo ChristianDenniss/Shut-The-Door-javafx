@@ -30,6 +30,9 @@ public class SkipButton extends MenuButton
         return event -> {
             System.out.println("Skipping the instructions...");
 
+            // Play the button press sound using MediaHandler
+            MediaHandler.playSound("mouseClick.mp3");
+                
             // Get the current stage
             Stage stage = (Stage) getScene().getWindow();
 
@@ -64,10 +67,10 @@ public class SkipButton extends MenuButton
      */
     private void startGame(StackPane layout)
     {
-        /*
-        GameScreen gameScreen = new GameScreen(layout); // Pass the layout to GameScreen
+        // Create a GameScreen instance and pass the layout to it
+        PlayerSetupScreen pSup = new PlayerSetupScreen(layout); // Pass the layout to GameScreen
 
-        
-        layout.getChildren().add(gameScreen);  // Add the game screen to the layout */
+        // Add the game screen to the layout (no need to clear the layout again)
+        layout.getChildren().add(pSup);  // Add the game screen to the layout
     }
 }
