@@ -31,6 +31,9 @@ public class CreditsButton extends MenuButton
             {
                 System.out.println("Credits button clicked! This feature is under construction...");
 
+                // Play the button press sound using MediaHandler
+                MediaHandler.playSound("mouseClick.mp3");
+                
                 // Get the current stage
                 Stage stage = (Stage) getScene().getWindow();
 
