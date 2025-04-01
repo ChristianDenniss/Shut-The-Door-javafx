@@ -15,6 +15,7 @@ import javafx.animation.PauseTransition;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import javafx.util.Duration;
+import javafx.scene.control.TextFormatter;
 
 public class PlayerSetupScreen extends StackPane 
 {
@@ -80,9 +81,6 @@ public class PlayerSetupScreen extends StackPane
         });
     }
 
-
-
-
     private void askForPlayer1Name(StackPane layout) 
     {
         TextField player1InputField = new TextField();
@@ -92,12 +90,16 @@ public class PlayerSetupScreen extends StackPane
         player1InputField.setStyle("-fx-font-size: 16px;");
         player1InputField.setMaxWidth(350);
         player1InputField.setTranslateY(-250);
-
+    
+        // Set the TextFormatter to limit the username input to 10 characters
+        player1InputField.setTextFormatter(new TextFormatter<String>(change -> 
+            change.getControlNewText().length() <= 10 ? change : null));
+    
         // Disable the TextField initially
         player1InputField.setDisable(true);
-
+    
         layout.getChildren().add(player1InputField);
-
+    
         // Pause for 3 seconds before enabling and focusing the field
         PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
         pause.setOnFinished(e -> {
@@ -105,25 +107,25 @@ public class PlayerSetupScreen extends StackPane
             player1InputField.requestFocus(); // Focus the TextField
         });
         pause.play();
-
+    
         player1InputField.setOnAction(e -> {
             player1Name = player1InputField.getText().trim();
             player1InputField.setVisible(false);
-
+    
             Text player1Text = new Text("Player 1: " + player1Name);
             player1Text.setTranslateY(338);
             player1Text.setTranslateX(400);
             player1Text.setFont(new Font("Arial", 24));
-
+    
             askForPlayer2Name(layout, player1Name, player1Text);
         });
     }
-
+    
     private void askForPlayer2Name(StackPane layout, String player1Name, Text player1Text) 
     {
         String p1Name = player1Name;
         Text player1Txt = player1Text;
-
+    
         TextField player2InputField = new TextField();
         player2InputField.setPromptText("Enter Player 2's name");
         player2InputField.setAlignment(Pos.CENTER);
@@ -131,12 +133,16 @@ public class PlayerSetupScreen extends StackPane
         player2InputField.setStyle("-fx-font-size: 16px;");
         player2InputField.setMaxWidth(350);
         player2InputField.setTranslateY(-250);
-
+    
+        // Set the TextFormatter to limit the input to 10 characters
+        player2InputField.setTextFormatter(new TextFormatter<String>(change -> 
+            change.getControlNewText().length() <= 10 ? change : null));
+    
         // Disable the TextField initially
         player2InputField.setDisable(true);
-
+    
         layout.getChildren().add(player2InputField);
-
+    
         // Pause for 3 seconds before enabling and focusing the field
         PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
         pause.setOnFinished(e -> {
@@ -144,17 +150,17 @@ public class PlayerSetupScreen extends StackPane
             player2InputField.requestFocus(); // Focus the TextField
         });
         pause.play();
-
+    
         player2InputField.setOnAction(e -> {
             player2Name = player2InputField.getText().trim();
             player2InputField.setVisible(false);
-
+    
             Text player2Text = new Text("Player 2: " + player2Name);
             player2Text.setTranslateY(-340);
             player2Text.setTranslateX(400);
             player2Text.setFont(new Font("Arial", 24));
             player2Text.setRotate(180);
-
+    
             // Create Players and start the game
             Player player1 = new Player(p1Name);
             Player player2 = new Player(player2Name);
