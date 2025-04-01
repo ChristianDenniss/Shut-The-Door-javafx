@@ -92,4 +92,80 @@ public class MediaHandler
             return null;
         }
     }
+    
+     // Method to play a sound from the resources folder
+    public static MediaPlayer playSound(String soundTitle)
+    {
+        // Load the sound from the resources folder
+        String soundFilePath = "resources/" + soundTitle;  // Path to your sound file
+        File file = new File(soundFilePath);
+
+        if (!file.exists())  // Check if the file exists
+        {
+            System.out.println("Sound file not found: " + soundFilePath);
+            return null;
+        }
+
+        // Create Media and MediaPlayer to play the sound
+        Media media = new Media(file.toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+
+        // Play the sound immediately
+        mediaPlayer.play();
+
+        return mediaPlayer;  // Return the MediaPlayer for controlling playback (pause, stop, etc.)
+    }
+
+    // Method to loop a sound indefinitely
+    public static MediaPlayer playLoopedSound(String soundTitle)
+    {
+        // Load the sound from the resources folder
+        String soundFilePath = "resources/" + soundTitle;  // Path to your sound file
+        File file = new File(soundFilePath);
+
+        if (!file.exists())  // Check if the file exists
+        {
+            System.out.println("Sound file not found: " + soundFilePath);
+            return null;
+        }
+
+        // Create Media and MediaPlayer to play the sound
+        Media media = new Media(file.toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+
+        // Set the MediaPlayer to loop the sound indefinitely
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+
+        // Play the sound
+        mediaPlayer.play();
+
+        return mediaPlayer;  // Return the MediaPlayer for controlling playback
+    }
+
+    // Method to stop the sound
+    public static void stopSound(MediaPlayer mediaPlayer)
+    {
+        if (mediaPlayer != null)
+        {
+            mediaPlayer.stop();  // Stop the currently playing sound
+        }
+    }
+
+    // Method to pause the sound
+    public static void pauseSound(MediaPlayer mediaPlayer)
+    {
+        if (mediaPlayer != null)
+        {
+            mediaPlayer.pause();  // Pause the sound
+        }
+    }
+
+    // Method to resume the sound from where it was paused
+    public static void resumeSound(MediaPlayer mediaPlayer)
+    {
+        if (mediaPlayer != null)
+        {
+            mediaPlayer.play();  // Resume playing the sound
+        }
+    }
 }
