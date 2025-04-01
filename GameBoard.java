@@ -35,36 +35,4 @@ public class GameBoard extends StackPane
         System.out.println("Usernames, board image, tileBoards added to screen");
     }
 
-    /**
-     * Rotates the entire GameBoard and its children 180 degrees with a smooth animation.
-     */
-    public void rotateGameBoard()
-    {
-        // Debugging: Log when the rotation function is called
-        System.out.println("rotateGameBoard method called");
-
-        // Apply rotation to the GameBoard (this StackPane)
-        RotateTransition rotateTransition = new RotateTransition(Duration.seconds(4), this);
-
-        // Set the angle of rotation
-        rotateTransition.setByAngle(180);  // Rotate by 180 degrees
-
-        // Set the interpolation for smooth rotation
-        rotateTransition.setInterpolator(javafx.animation.Interpolator.EASE_BOTH);
-
-        // Set the rotation to only happen once
-        rotateTransition.setCycleCount(1);  // One cycle of rotation
-
-        // Debugging: Log before starting the transition
-        System.out.println("Starting the GameBoard rotation transition...");
-
-        // Play the rotation animation
-        rotateTransition.play();
-
-        // Log when the rotation is completed
-        rotateTransition.setOnFinished(event -> {
-            System.out.println("Rotation completed for GameBoard.");
-            
-        });
-    }
 }
