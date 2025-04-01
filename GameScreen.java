@@ -10,6 +10,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.TranslateTransition;
 import javafx.scene.paint.Color;
 import javafx.scene.control.TextFormatter;
+import javafx.animation.PauseTransition;
 import javafx.util.Callback;
 
 public class GameScreen extends StackPane
@@ -59,10 +60,67 @@ public class GameScreen extends StackPane
     public void changePlayersTurn(GameBoard gb, TileBoard p1, TileBoard p2, String p1Text, String p2Text, StackPane layout)
     {
         disableGameplay();
+        
+        //change boolean so we can click p2 players tiles
         p1.changePlayersTurn();
+        
+        //disable p1 tiles
         p2.changePlayersTurn();
-        gb.rotateGameBoard();
-        slideTextAcrossScreen(false, true, p1Text, p2Text ,layout, gb, p1, p2);
+        
+        //rotate our board
+        
+        // Apply rotation to the entire game screen as well
+        rotateGameScreen(layout);
+                
+        //play the slide across method for turn change indicated by the false true
+        //first false is that we are using p2 name, 2nd false is that we are sending score
+        
+        // Create a PauseTransition to wait for 4 seconds before executing the next line
+        PauseTransition pause = new PauseTransition(Duration.seconds(5));
+    
+        // Set the action to execute after the pause
+        pause.setOnFinished(event -> 
+        {
+            // Play the slide across method for turn change, indicated by the false (p2) true (turn)
+            slideTextAcrossScreen(false, true, p1Text, p2Text, layout, gb, p1, p2);
+        });
+    
+        // Start the pause transition
+        pause.play();   
+    }
+    
+    /**
+     * Method to rotate the entire GameScreen (or its components).
+     * @param layout The layout that contains the GameScreen.
+     */
+    public void rotateGameScreen(StackPane layout) 
+    {
+        // Debugging: Log when rotation is triggered
+        System.out.println("rotateGameScreen method called");
+
+        // Apply rotation to the entire GameScreen (this StackPane)
+        RotateTransition rotateTransition = new RotateTransition(Duration.seconds(4), layout);
+
+        // Set the angle of rotation
+        rotateTransition.setByAngle(180);  // Rotate by 180 degrees
+
+        // Set the interpolation for smooth rotation
+        rotateTransition.setInterpolator(javafx.animation.Interpolator.EASE_BOTH);
+
+        // Set the rotation to only happen once
+        rotateTransition.setCycleCount(1);
+
+        // Debugging: Log before starting the transition
+        System.out.println("Starting GameScreen rotation...");
+
+        // Play the rotation animation
+        rotateTransition.play();
+
+        // Log when the rotation is completed
+        rotateTransition.setOnFinished(event -> 
+        {
+            System.out.println("GameScreen rotation completed.");
+        });
     }
     
     public void allowGameplay()
@@ -92,14 +150,13 @@ public class GameScreen extends StackPane
         
         if(player1 == false)
         {
-            modifiedString = p1Text.substring(9);
+            modifiedString = p2Text.substring(9);
         }
         
         Text text = new Text(modifiedString + " total score: " + "");
         
         if (turn) 
         {
-            modifiedString = p1Text.substring(9);
             text.setText(modifiedString + " Turn");
         }
 
@@ -112,6 +169,11 @@ public class GameScreen extends StackPane
         
         // Add the text to the pane before calculating its width
         layout.getChildren().add(text);
+        
+        if (!player1) 
+        {
+        text.setRotate(180);  // Rotate the text by 180 degrees to negate screen rotation
+        }
 
         // Set the initial position of the text (starting off the left side of the screen)
         text.setTranslateY(100); // Adjust Y position for vertical placement
