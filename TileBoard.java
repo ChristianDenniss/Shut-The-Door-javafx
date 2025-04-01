@@ -28,44 +28,45 @@ public class TileBoard extends GridPane
         System.out.println("Constructor called with myTurn: " + myTurn);
         this.myTurn = myTurn;
         tiles = new NumberTile[9];
-
+    
         // Set the position of the board
         setTranslateX(translateX);
         setTranslateY(translateY);
-
-        // Create tiles in normal order
+    
+        // Create tiles in normal order (1 to 9)
         for (int i = 0; i < 9; i++) 
         {
-            tiles[i] = new NumberTile(i + 1);
+            tiles[i] = new NumberTile(i + 1);  // 1 to 9
             tiles[i].setMouseTransparent(false);
-
+    
             // Adding a click handler for each tile
-            //must make a new var cuz lamda expression
             int index = i;  
             tiles[i].setOnMouseClicked(event -> handleTileClick(index)); 
             tiles[i].setOnMouseEntered(event -> handleMouseEntered(index));  
             tiles[i].setOnMouseExited(event -> handleMouseExited(index)); 
         }
-
+    
         // Add tiles to the GridPane in a single row with 9 columns
+        // If myTurn is false, Player 2's view, reverse the order vertically.
         if (!myTurn) 
         {
-            for (int i = 8; i >= 0; i--) 
+            for (int i = 0; i < 9; i++) 
             {
-                add(tiles[i], i, 0); // Add tile in reverse order to the first row
+                add(tiles[8 - i], i, 0);  // Add tiles in reverse order (9 to 1 from top to bottom)
             }
         } 
         else 
         {
             for (int i = 0; i < 9; i++) 
             {
-                add(tiles[i], i, 0); // Add tiles to the first row
+                add(tiles[i], i, 0);  // Add tiles in normal order (1 to 9 from top to bottom)
             }
         }
-
+    
         setHgap(10);  // Horizontal gap between tiles
         setVgap(10);  // Vertical gap between tiles
-        updateTileOrientation();
+    
+        updateTileOrientation();  // Update the tile orientations based on myTurn
     }
 
     /**
@@ -121,7 +122,31 @@ public class TileBoard extends GridPane
         }
         throw new IndexOutOfBoundsException("Invalid tile index");
     }
-
+    
+    /**
+     * Method to get the sum of the values of the tiles that are closed.
+     *
+     * @return The sum of the values of closed tiles.
+     */
+    public int getClosedTilesSum() 
+    {
+        int sum = 0;  // Initialize sum to 0
+    
+        // Iterate through all the tiles on the board
+        for (NumberTile tile : tiles) 
+        {
+            // Check if the tile is closed
+            if (tile.isClosed()) 
+            {
+                // Add the value of the closed tile to the sum
+                sum += tile.getValue();
+            }
+        }
+    
+        // Return the total sum of the values of closed tiles
+        return sum;
+    }
+    
     /**
      * Getter for the array of tiles.
      * 
@@ -176,19 +201,17 @@ public class TileBoard extends GridPane
      */
     private void updateTileOrientation() 
     {
-        for (NumberTile tile : tiles) 
+        for (int i = 0; i < tiles.length; i++) 
         {
-            // Rotate the number based on the board state (flipped or not)
             if (!myTurn) 
             {
-                // Rotate the number 180 degrees when the board is flipped
-                tile.getValueText().setRotate(180);
-                // Ensure no horizontal flipping by not changing scaleX
+                // Rotate the number 180 degrees when the board is flipped (Player 2's view)
+                tiles[i].getValueText().setRotate(180);
             } 
             else 
             {
-                // Ensure the number is upright if the board is not flipped
-                tile.getValueText().setRotate(0);
+                // Ensure the number is upright if the board is not flipped (Player 1's view)
+                tiles[i].getValueText().setRotate(0);
             }
         }
     }
@@ -198,10 +221,18 @@ public class TileBoard extends GridPane
      * 
      * @param isBoardFlipped If true, the board will be flipped (Player 2's view).
      */
-    public void setBoardFlipped(boolean myTurn) 
+    public void changePlayersTurn() 
     {
-        this.myTurn = myTurn;
-        updateTileOrientation();
+        //if it was just the players turn it is no longer and vice versa
+        if(myTurn)
+        {
+            myTurn = false;
+        }
+        
+        else
+        {
+            myTurn = true;
+        }
     }
 
     /**
@@ -223,15 +254,21 @@ public class TileBoard extends GridPane
     {
         // Handle tile click logic here, using the index of the clicked tile
         System.out.println("Tile clicked at index: " + index + " Tile value: " + tiles[index].getValue() + " is closed:" + tiles[index].isClosed());
-
-        if (!myTurn) 
+        if(GameScreen.gamePlayable)
         {
-            System.out.println("not this tile boards turn");
-        } 
-        else 
+            if (!myTurn) 
+            {
+                System.out.println("not this tile boards turn");
+            } 
+            else 
+            {
+                System.out.println("it is this tile boards turn");
+                tiles[index].setTileState();
+            }
+        }
+        else
         {
-            System.out.println("it is this tile boards turn");
-            tiles[index].setTileState();
+            System.out.println("Game isn't playable right now");
         }
     }
 }
