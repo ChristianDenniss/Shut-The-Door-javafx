@@ -31,6 +31,9 @@ public class PlayButton extends MenuButton
             {
                 System.out.println("Play button clicked! Starting the game...");
 
+                // Play the button press sound using MediaHandler
+                MediaHandler.playSound("mouseClick.mp3");
+                
                 // Get the current stage
                 Stage stage = (Stage) getScene().getWindow();
 
@@ -41,7 +44,7 @@ public class PlayButton extends MenuButton
                 {
                     // Get the current layout (StackPane) from the scene
                     StackPane layout = (StackPane) getScene().getRoot();
-
+                    
                     // Clear the current content of the layout
                     layout.getChildren().clear();
 
